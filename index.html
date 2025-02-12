@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./src/js/tailwind.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.3/simple-lightbox.min.js"
+    integrity="sha512-Vtot07oogPy4e0JzAfUgyvia0fATgR1PWWNG89EeQgPXmaIhjGQIFijUVxRn0TScCMCH57Y7eJSixmYYDJkJ1A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.3/simple-lightbox.css"
+    integrity="sha512-5gTxhbmgsOKfPP2+TeKslkMmyxF0Cmyr2YrJrfaXD/ChLHavFXGzDDG9ZiOca1P/2/5nXuujkB2BWymVKu1pPg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    .player {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    @font-face {
+      font-family: "HelveticaCustom";
+      src: url("./src/fonts/helvetica.otf") format("opentype");
+    }
+
+    * {
+      user-select: none;
+    }
+
+    .font {
+      font-family: "HelveticaCustom", sans-serif;
+    }
+
+    .font>* {
+      color: rgb(112, 214, 112);
+      text-shadow: 5px 5px 3px black;
+    }
+  </style>
+  <title>Steele Clicker</title>
+</head>
+
+<body class="grid">
+  <div class="grid grid-cols-3">
+    <div class="grid h-screen border-2 border-green-500 justify-center content-start justify-items-start">
+      <h2 class="text-xl">❤️ Masterpieces ❤️</h2>
+      <div>
+        <div>
+          <p class="player" data-id="idwmb">I Don't Wanna Be Me</p>
+        </div>
+        <div>
+          <p class="player" data-id="lytd">Love You to death</p>
+        </div>
+
+        <div>
+          <p data-id="bn" class="player">Black No. 1</p>
+        </div>
+        <div>
+          <p class="player" data-id="mgg">My Girlfriend's Girlfriend</p>
+        </div>
+        <div>
+          <p class="player" data-id="cw">Chrisitian Woman</p>
+        </div>
+      </div>
+    </div>
+    <div class="grid gap-2 border-1 p-4 justify-center justify-items-center h-max">
+      <h3 class=" text-2xl text-center">Steele Clicker</h3>
+      <h3 class=" text-xl text-center" id="score-value">0</h3>
+      <button id="click"
+        class=" h-[200px] block duration-150 w-[200px] bg-cover rounded-lg cursor-pointer active:scale-[99%] transition-all bg-[url('./src/images/btn.jpg')]">
+
+      </button>
+    </div>
+    <div class="grid h-screen border-2 border-green-500 justify-center content-start justify-items-start">
+      <h2 class="text-xl">❤️ Shopping ❤️</h2>
+      <div class="w-full">
+        <div class="flex justify-between">
+          <p>Фон - 120</p>
+          <button class="buy" data-id="bg">Купити</button>
+        </div>
+        <div class="flex justify-between">
+          <p>Шрифт - 160</p>
+          <button class="buy" data-id="font">Купити</button>
+        </div>
+        <div class="flex justify-between">
+          <p>Спогади - 350</p>
+          <button class="buy" data-id="mem">Купити</button>
+        </div>
+        <div class="flex justify-between">
+          <p>Приколюха - 750</p>
+          <button class="buy" data-id="po">Купити</button>
+        </div>
+        <div class="flex justify-between">
+          <p>Фінал) - 1500</p>
+          <button class="buy" data-id="final">Купити</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  const audio = new Audio();
+  const btn = document.getElementById('click');
+  const scorePlace = document.getElementById('score-value');
+  const shopItems = document.querySelectorAll('.buy');
+
+  window.onload = () => {
+    updateUI()
+  }
+
+  function updateUI() {
+    const score = +localStorage.getItem('score') || 0;
+    scorePlace.innerText = score;
+
+    const items = ['bg', 'font', 'mem', 'po', 'final'];
+
+
+    items.forEach(item => {
+      const itemFromStorage = localStorage.getItem(item);
+      if (!itemFromStorage) return;
+      switch (item) {
+        case "final":
+          window.location.href = "final.html";
+          break;
+        case "bg":
+          document.body.style.background = "url(./src/images/bg.jpg)"
+          document.body.style.color = "yellow";
+          break;
+
+        case "font":
+          document.body.classList.add('font');
+          break;
+        case "mem":
+          const mem = document.getElementById('imageOne');
+          if (mem) return;
+          const imagesContent = `  <div class="w-full bg-green-900 min-h-[400px] gallery">
+    <a id="imageOne" href="./src/images/slider/0.jpg"><img class="w-full" src="./src/images/slider/0.jpg" alt="0" /></a>
+    <a href="./src/images/slider/1.jpg"><img class="w-full" src="./src/images/slider/1.jpg" alt="1" /></a>
+    <a href="./src/images/slider/2.jpg"><img class="w-full" src="./src/images/slider/2.jpg" alt="2" /></a>
+    <a href="./src/images/slider/3.jpg"><img class="w-full" src="./src/images/slider/3.jpg" alt="3" /></a>
+    <a href="./src/images/slider/4.jpg"><img class="w-full" src="./src/images/slider/4.jpg" alt="4" /></a>
+    <a href="./src/images/slider/5.jpg"><img class="w-full" src="./src/images/slider/5.jpg" alt="5" /></a>
+    <a href="./src/images/slider/6.jpg"><img class="w-full" src="./src/images/slider/6.jpg" alt="6" /></a>
+    <a href="./src/images/slider/7.jpg"><img class="w-full" src="./src/images/slider/7.jpg" alt="7" /></a>
+    <a href="./src/images/slider/8.jpg"><img class="w-full" src="./src/images/slider/8.jpg" alt="8" /></a>
+    <a href="./src/images/slider/9.jpg"><img class="w-full" src="./src/images/slider/9.jpg" alt="9" /></a>
+  </div>`
+          const imgs = document.createElement('div');
+          imgs.innerHTML = imagesContent;
+          document.body.appendChild(imgs);
+          break;
+        case 'po':
+          const pou = document.getElementById('pou');
+          if (pou) return;
+          const poContent = `<div id="pou" class="bg-cover relative left-[100px] top-[100px] w-[200px] h-[200px] bg-[url('./src/images/pou.png')]">
+          <p class=" relative bottom-[-120px] select-none text-white text-sm left-[2px]">Я ПОМОЖУ КЛІКАТИ</p>
+        </div>`
+          const poBtn = document.createElement('div');
+          poBtn.innerHTML = poContent;
+          btn.appendChild(poBtn);
+          setInterval(() => {
+            handleClick();
+          }, 500)
+          break;
+      }
+    })
+  }
+
+  function handleClick() {
+    const score = +localStorage.getItem('score');
+    localStorage.setItem("score", score + 1 || 0)
+    scorePlace.innerText = score + 1;
+  }
+  btn.onclick = handleClick;
+
+  function shop({ target }) {
+    const key = target.dataset.id;
+
+    const has = localStorage.getItem(key) == "true";
+
+    if (has) {
+      julik('ТИ ВЖЕ МАЄШ ЦЕ)))))))))')
+      return;
+    }
+
+    const list = {
+      bg: 120,
+      font: 160,
+      mem: 350,
+      po: 750,
+      final: 1500
+    }
+    const score = +localStorage.getItem('score') || 0;
+
+    const price = list[key];
+
+    if (score < price) {
+      julik();
+      return;
+    }
+
+    localStorage.setItem(key, "true");
+
+    localStorage.setItem("score", score - price);
+
+    setTimeout(
+      updateUI
+      , 0)
+
+    if (key == "mem") {
+      setTimeout(() => {
+
+        const image = document.getElementById('imageOne')
+        image.scrollIntoView({ behavior: "smooth" });
+      }, 0)
+    }
+  }
+
+  shopItems.forEach(item => item.onclick = shop);
+
+  function julik(text) {
+    const div = document.createElement('div');
+    div.innerText = text || "НЕМОНА КУПИТИ, КЛІКАЙ ДАЛІ"
+    div.classList.add("absolute");
+    div.classList.add("top-0");
+    div.style.textAlign = "center";
+    div.style.width = "100%";
+    div.style.color = "red";
+    document.body.appendChild(div);
+
+    setTimeout(() => {
+      div.remove();
+    }, 1000);
+  }
+
+
+  function handlePlayer({ target }) {
+    const musics = {
+      idwmb: "./src/music/Type O Negative - I Don't Wanna Be Me (Edit).mp3",
+      bn: "./src/music/bn.mp3",
+      cw: "./src/music/Type O Negative - Christian Woman.mp3",
+      lytd: "./src/music/Type O Negative - Love You to Death.mp3",
+      mgg: "./src/music/Type O Negative - My Girlfriend's Girlfriend.mp3"
+    };
+    const id = target.dataset.id;
+
+    audio.src = musics[id];
+    audio.play();
+  }
+
+  const musics = document.querySelectorAll('.player');
+
+  musics.forEach((music) => music.onclick = handlePlayer)
+
+
+</script>
+
+</html>
